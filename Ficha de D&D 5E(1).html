@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ficha de D&amp;D 5E</title>
+<style>
+:root{--bg:#f3efe6;--card:#fff;--ink:#1d1b18;--mut:#6b655b;--line:#cfc7b8;--acc:#9b1c1c;--acc2:#7a1515;--on:#fff;--fld:#f7f4ec;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17150f;--card:#221f18;--ink:#eee8da;--mut:#a29a88;--line:#3b362a;--acc:#d85a4a;--acc2:#e8806f;--on:#17150f;--fld:#2b271d}}
+:root[data-theme="dark"]{--bg:#17150f;--card:#221f18;--ink:#eee8da;--mut:#a29a88;--line:#3b362a;--acc:#d85a4a;--acc2:#e8806f;--on:#17150f;--fld:#2b271d}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.35 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background-color:var(--bg);padding:0 10px 84px;max-width:1200px;margin:0 auto}
+header{display:flex;gap:8px;align-items:center;padding:10px 0}
+header input{flex:1;min-width:0;font:700 20px Georgia,serif;border:0;border-bottom:2px solid var(--acc);background:transparent;color:var(--ink);padding:4px 2px}
+button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:8px 10px;cursor:pointer}
+h2{font:700 18px Georgia,serif;color:var(--acc);margin:6px 0 8px;letter-spacing:.5px;text-transform:uppercase}
+h3{margin:0 0 4px;font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--mut)}
+.g{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));margin-bottom:14px}
+.g2{display:grid;gap:8px;grid-template-columns:1fr 1fr}
+.g3{display:grid;gap:8px;grid-template-columns:repeat(3,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px}
+.f{display:flex;flex-direction:column;gap:2px;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--mut)}
+input,textarea,select{font:inherit;font-size:16px;width:100%;min-width:0;background:var(--fld);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 8px}
+textarea{resize:vertical}
+input[type=checkbox]{width:20px;height:20px;accent-color:var(--acc);flex:none;padding:0}
+.big{font:700 26px Georgia,serif;text-align:center;padding:6px}
+.ab{display:flex;flex-direction:column;gap:4px}
+.abh{display:flex;align-items:center;gap:8px}
+.abh b{flex:1;font:700 15px Georgia,serif;text-transform:uppercase}
+.abh input{width:64px}
+.mod{font:700 22px Georgia,serif;color:var(--acc);min-width:46px;text-align:center}
+.r{display:flex;align-items:center;gap:8px;padding:2px 0;border-top:1px dashed var(--line)}
+.r span:first-of-type{flex:1}
+.r .v{min-width:34px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.atk{display:grid;grid-template-columns:2fr 1fr 1.5fr;gap:6px;margin-bottom:6px}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin-bottom:8px}
+summary{font:700 15px Georgia,serif;cursor:pointer;color:var(--acc)}
+.sp{display:flex;gap:8px;align-items:center;margin-top:6px}
+.sp input[type=text]{flex:1}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;gap:6px;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);z-index:5}
+nav button{flex:1;padding:10px 2px;font-size:13px;font-weight:600}
+nav button.on{background:var(--acc);color:var(--on);border-color:var(--acc)}
+.pg{display:none}
+.pg.on{display:block}
+dialog{width:min(92vw,520px);background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px}
+dialog textarea{height:200px;font:12px monospace}
+.mut{color:var(--mut);font-size:12px}
+@media (min-width:900px){
+ body{padding-bottom:24px}
+ nav{display:none}
+ .pg{display:block}
+}
+@media (max-width:899px){h2{display:none}}
+</style>
+</head>
+<body>
+<header>
+ <input data-k="nome" placeholder="Nome do personagem" aria-label="Nome do personagem">
+ <button id="bk" title="Backup">Backup</button>
+ <button id="th" title="Tema">◐</button>
+</header>
+
+<section class="pg" id="p0"><h2>Atributos</h2></section>
+<section class="pg" id="p1"><h2>Combate</h2></section>
+<section class="pg" id="p2"><h2>Detalhes</h2></section>
+<section class="pg" id="p3"><h2>Magias</h2></section>
+
+<nav id="nav"></nav>
+
+<dialog id="dlg">
+ <h3>Backup da ficha</h3>
+ <p class="mut">Copie o texto abaixo para guardar ou mover a ficha para outro aparelho. Para restaurar, cole um backup e toque em Importar.</p>
+ <textarea id="bx"></textarea>
+ <div class="g2" style="margin-top:8px"><button id="imp">Importar</button><button id="cl">Fechar</button></div>
+</dialog>
+
+<script>
+const KEY="ficha-dnd5e-v1";
+let S={};
+try{S=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){S={}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=s=>document.querySelector(s);
+const I=(k,l,t="text",x="")=>`<label class="f"><span>${l}</span><input data-k="${k}" type="${t}" ${x}></label>`;
+const A=(k,l,r=5)=>`<div class="card"><h3>${l}</h3><textarea data-k="${k}" rows="${r}"></textarea></div>`;
+const AB=[["for","Força"],["des","Destreza"],["con","Constituição"],["int","Inteligência"],["sab","Sabedoria"],["car","Carisma"]];
+const SK={for:["Atletismo"],des:["Acrobacia","Furtividade","Prestidigitação"],con:[],int:["Arcanismo","História","Investigação","Natureza","Religião"],sab:["Intuição","Lidar com Animais","Medicina","Percepção","Sobrevivência"],car:["Atuação","Enganação","Intimidação","Persuasão"]};
+let n=0;const rows=[];
+const row=(k,l,ab)=>{const id="r"+(n++);rows.push([id,k,ab,l]);return `<div class="r"><input type="checkbox" data-k="${k}" aria-label="Proficiência"><span>${l}</span><span class="v" id="${id}">+0</span></div>`};
+
+// Página 1
+let h=`<div class="g">
+<div class="card g2">${I("classe","Classe &amp; nível")}${I("antec","Antecedente")}${I("jogador","Nome do jogador")}${I("raca","Raça")}${I("alin","Alinhamento")}${I("xp","Pontos de experiência")}</div>
+<div class="card g2">${I("pb","Bônus de proficiência","number",'placeholder="2" inputmode="numeric"')}${I("insp","Inspiração","number",'inputmode="numeric"')}
+<div class="f">Sabedoria passiva (Percepção)<div class="big" id="pas">10</div></div></div></div><div class="g">`;
+AB.forEach(([a,l])=>{
+ h+=`<div class="card ab"><div class="abh"><b>${l}</b><div class="mod" id="m_${a}">+0</div><input data-k="a_${a}" type="number" inputmode="numeric" placeholder="10" aria-label="${l}"></div>`;
+ h+=row("s_"+a,"Salvaguarda",a);
+ SK[a].forEach(s=>{h+=row("p_"+s,s,a)});
+ h+=`</div>`;
+});
+h+=`</div><div class="g">${A("outras","Outras proficiências &amp; idiomas",6)}</div>`;
+$("#p0").insertAdjacentHTML("beforeend",h);
+
+// Página 2
+h=`<div class="g3">${I("ca","Classe de armadura","number",'inputmode="numeric"')}${I("ini","Iniciativa","text")}${I("desl","Deslocamento")}</div>
+<div class="g"><div class="card g3">${I("hpm","PV máximos","number",'inputmode="numeric"')}${I("hp","PV atuais","number",'inputmode="numeric"')}${I("hpt","PV temporários","number",'inputmode="numeric"')}</div>
+<div class="card g2">${I("dv","Dado de vida (total)")}${I("dvu","Dados gastos")}
+<div><h3>Sucessos</h3><div class="abh">${[0,1,2].map(i=>`<input type="checkbox" data-k="ds${i}">`).join("")}</div></div>
+<div><h3>Falhas</h3><div class="abh">${[0,1,2].map(i=>`<input type="checkbox" data-k="df${i}">`).join("")}</div></div>
+<div class="mut" style="grid-column:1/-1">Salvaguardas contra a morte</div></div></div>
+<div class="g"><div class="card"><h3>Ataques &amp; conjuração</h3><div class="mut atk"><span>Nome</span><span>Bônus</span><span>Dano/tipo</span></div>`;
+for(let i=0;i<6;i++)h+=`<div class="atk"><input data-k="an${i}" aria-label="Nome"><input data-k="ab${i}" aria-label="Bônus"><input data-k="ad${i}" aria-label="Dano"></div>`;
+h+=`<textarea data-k="atkn" rows="5" placeholder="Anotações de ataques"></textarea></div>
+<div style="display:grid;gap:10px">${A("trac","Traços de personalidade",3)}${A("ide","Ideais",3)}${A("vin","Vínculos",3)}${A("fra","Fraquezas",3)}</div></div>`;
+$("#p1").insertAdjacentHTML("beforeend",h);
+
+// Página 3
+h=`<div class="g">${A("carac","Características &amp; talentos",10)}${A("equip","Equipamento &amp; notas do personagem",10)}</div>
+<div class="g"><div class="card g3">${I("idade","Idade")}${I("alt","Altura")}${I("peso","Peso")}${I("olhos","Cor dos olhos")}${I("pele","Cor da pele")}${I("cab","Cor do cabelo")}</div>
+${A("apar","Aparência do personagem",5)}</div>
+<div class="g">${A("hist","História do personagem",10)}${A("aliados","Aliados &amp; organizações",10)}
+<div class="card">${I("simn","Símbolo — nome")}<div style="height:8px"></div>${A("sim","Símbolo (descrição)",3).replace('class="card"','')}</div></div>
+<div class="g">${A("extra","Características e talentos adicionais",8)}${A("tesouro","Tesouros",8)}</div>`;
+$("#p2").insertAdjacentHTML("beforeend",h);
+
+// Página 4
+h=`<div class="g"><div class="card g2">${I("cclasse","Classe conjuradora")}
+<label class="f"><span>Atributo de conjuração</span><select data-k="spab"><option value="">—</option>${AB.map(([a,l])=>`<option value="${a}">${l}</option>`).join("")}</select></label>
+<div class="f">CD para evitar suas magias<div class="big" id="cd">—</div></div><div class="f">Modificador de ataque mágico<div class="big" id="ma">—</div></div></div></div>`;
+for(let L=0;L<=9;L++){
+ h+=`<details${L<2?" open":""}><summary>${L==0?"Truques":"Círculo "+L}</summary>`;
+ if(L)h+=`<div class="g2" style="margin-top:6px">${I("st"+L,"Total de espaços","number",'inputmode="numeric"')}${I("su"+L,"Espaços utilizados","number",'inputmode="numeric"')}</div>`;
+ for(let i=0;i<8;i++)h+=`<div class="sp">${L?`<input type="checkbox" data-k="sp${L}p${i}" aria-label="Preparada">`:""}<input type="text" data-k="sp${L}n${i}" placeholder="Nome da magia" aria-label="Magia"></div>`;
+ h+=`</details>`;
+}
+$("#p3").insertAdjacentHTML("beforeend",h);
+
+// Navegação
+const names=["Atributos","Combate","Detalhes","Magias"];
+$("#nav").innerHTML=names.map((t,i)=>`<button data-p="${i}">${t}</button>`).join("");
+function go(i){
+ document.querySelectorAll(".pg").forEach((p,j)=>p.classList.toggle("on",j==i));
+ document.querySelectorAll("#nav button").forEach((b,j)=>b.classList.toggle("on",j==i));
+ scrollTo(0,0);try{localStorage.setItem(KEY+"-pg",i)}catch(e){}
+}
+$("#nav").onclick=e=>{const b=e.target.closest("button");if(b)go(+b.dataset.p)};
+let pg=0;try{pg=+localStorage.getItem(KEY+"-pg")||0}catch(e){}
+go(pg);
+
+// Valores
+const fmt=x=>(x>=0?"+":"")+x;
+const mod=v=>Math.floor(((+v||10)-10)/2);
+function calc(){
+ const pb=+S.pb||2;
+ AB.forEach(([a])=>{$("#m_"+a).textContent=fmt(mod(S["a_"+a]))});
+ rows.forEach(([id,k,ab])=>{$("#"+id).textContent=fmt(mod(S["a_"+ab])+(S[k]?pb:0))});
+ const pr=rows.find(r=>r[1]=="p_Percepção");
+ $("#pas").textContent=10+mod(S.a_sab)+(S.p_Percepção?pb:0);
+ const ab=S.spab;
+ $("#cd").textContent=ab?8+pb+mod(S["a_"+ab]):"—";
+ $("#ma").textContent=ab?fmt(pb+mod(S["a_"+ab])):"—";
+}
+function load(){
+ document.querySelectorAll("[data-k]").forEach(el=>{
+  const v=S[el.dataset.k];
+  if(el.type=="checkbox")el.checked=!!v;else el.value=v==null?"":v;
+ });
+ calc();
+}
+document.addEventListener("input",e=>{
+ const el=e.target,k=el.dataset&&el.dataset.k;
+ if(!k)return;
+ S[k]=el.type=="checkbox"?el.checked:el.value;
+ save();calc();
+});
+load();
+
+// Backup
+const dlg=$("#dlg");
+$("#bk").onclick=()=>{$("#bx").value=JSON.stringify(S);dlg.showModal()};
+$("#cl").onclick=()=>dlg.close();
+$("#imp").onclick=()=>{
+ try{const o=JSON.parse($("#bx").value);if(o&&typeof o=="object"){S=o;save();load();dlg.close()}}
+ catch(e){alert("Backup inválido.")}
+};
+// Tema
+$("#th").onclick=()=>{
+ const r=document.documentElement,d=r.dataset.theme=="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);
+ r.dataset.theme=d?"light":"dark";
+};
+</script>
+</body>
+</html>
